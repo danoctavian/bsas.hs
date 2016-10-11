@@ -30,6 +30,16 @@ data BinaryTree a = Node (BinaryTree a) (BinaryTree a) | Leaf a
 
 exampleTree = Node (Leaf 1) (Node (Leaf 2) (Leaf 3))
 
+
+-- alternatively
+
+data BinaryTree' a =
+  Node'{
+    leftChild :: (BinaryTree a),
+    rightChild :: (BinaryTree a)
+  }
+  | Leaf' a
+
 -- currying
 
 inc x = myadd 1
@@ -95,8 +105,13 @@ safeHead [] = Nothing
 safeHead (x : _) = Just x
 
 {-
- define requirements better or pick another example
+more complex example: moving averages
+input 1 2 3 4 5 6
+input 3
+output 2 3 5
+
 -}
+
 movingAverage allNumbers@(n : ns) windowSize
   = if (length numbersInWindow == windowSize) then
       windowAverage : (movingAverage ns windowSize)
@@ -106,16 +121,6 @@ movingAverage allNumbers@(n : ns) windowSize
       numbersInWindow = take windowSize allNumbers
       windowAverage = average numbersInWindow
 movingAverage [] _ = []
-
-
-{-
-input 1 2 3 4  5 6
-input 3
-output 2 3 5
-
-2 3 4 5 6
-
--}
 
 
 -- first attempt at I/O - list
