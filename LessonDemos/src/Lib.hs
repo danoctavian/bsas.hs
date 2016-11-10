@@ -5,6 +5,8 @@ import Control.Concurrent.Async
 import Control.Concurrent
 import Control.Monad
 import Data.IORef
+import Data.Numbers.Primes
+import Control.Concurrent.STM
 
 someFunc :: IO ()
 someFunc = putStrLn "someFunc"
@@ -177,10 +179,19 @@ myIoFunc' = do
 -- I/O 
 
 demoManyThreads = do
-  let threadCount = 10 ^ 6
-  
+  let threadCount = 500000
+  putStrLn $ "running " ++ (show threadCount) ++ " threads."
+
+  tchan <- newTChanIO 
+
   forM [0..threadCount] $ \i -> do
-      putStrLn (show i)
-  return ()
+      forkIO $ do
+        word <- atomically $ readTChan tchan
+        putStrLn word
+
+  forever$ do
+    threadDelay $ 10 ^ 6
+    atomically $ writeTChan tchan "Hello"
+
 
 

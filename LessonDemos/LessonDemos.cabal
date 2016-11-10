@@ -15,13 +15,17 @@ cabal-version:       >=1.10
 
 library
   hs-source-dirs:      src
-  exposed-modules:     Lib,
-                       ConcumonGo,
-                       STMDemo
+  exposed-modules:     STMDemo,
+                       HaskellIntroDemos,
+                       BlockchainAPIQueryDemos
   build-depends:       base >= 4.7 && < 5
                       , async
                       , vector
                       , stm
+                      , aeson
+                      , http-conduit
+                      , text
+                      , primes
   default-language:    Haskell2010
 
 executable LessonDemos-exe
@@ -30,6 +34,7 @@ executable LessonDemos-exe
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   build-depends:       base
                      , LessonDemos
+  ghc-options: -O3 -threaded
   default-language:    Haskell2010
 
 test-suite LessonDemos-test
